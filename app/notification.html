@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>알림</title>
+    <!-- 수동으로 app/popup경로에도 js파일을 놓아 둘것 -->
+  </head>
+  <body>
+    <div style="display: flex;align-items: center;justify-content: center;">
+      <p style="font-size: 16px;font-weight: bold;color: #8e8e8e;"></p>
+    </div>
+    <div style="border-radius: 21px;background: #6b80bd;margin: 0 25px 0 25px; padding: 35px 0 25px 0; box-shadow: 3px 3px 8px 3px grey; min-height: 148px;max-height: 148px;">
+      <div id="retryBody" style="display: none; min-height: 108px; font-size: 20px;text-align: center; font-weight: bold;font-family: Noto Sans KR,sans-serif; color: #f5815f; margin-top:10px;">
+        <!-- <pre id="comment" style="font-size: 20px;text-align: center; font-weight: bold;font-family: Noto Sans KR,sans-serif; color: #f5815f; margin-top:10px;">
+        </pre> -->
+      </div>
+    </div>
+    <script>
+      window.onload = () =>{
+          console.log('DOM fully loaded and parsed');
+          window.matches = location.search.match(/\?message=(\S+)/);
+          if(!matches?.[0] || !matches?.[1]){
+            return;
+          }
+          if(matches[1] != ''){
+           
+              document.getElementById('retryBody').style.display= 'block';
+              document.getElementById('retryBody').innerHTML = decodeURIComponent(matches[1]);
+              // document.getElementById('comment').style.marginTop = "-10px";
+          }
+        };
+    </script>
+  </body>
+</html>

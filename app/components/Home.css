@@ -1,0 +1,101 @@
+.container {
+  position: absolute;
+  top: 30%;
+  left: 10px;
+  text-align: center;
+}
+
+.container h2 {
+  font-size: 5rem;
+}
+
+.container a {
+  font-size: 1.4rem;
+}
+
+.homeContainer {
+  flex:5;
+}
+
+.webViewTag{
+  display:flex;
+  /* width: 100%; */
+  height: 100%;
+}
+
+.flaxPc{
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row; 
+  width: 100%;
+  height: 100vh;
+}
+
+.rightNavPc {
+  flex:2;
+  position: relative;
+  display: none;
+}
+
+.flexItemPc{
+  margin: 5px;
+  padding: 5px;
+  background: #555;
+}
+
+.listWrapPc{
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column; 
+  width: 100%;
+  height: 100%;
+}
+
+.listItemPc{
+  margin: 5px;
+  padding: 5px;
+  background: black;
+}
+
+.arrowPc {
+  /* z-index: 9999; */
+  position: absolute;
+  top: 50%;
+  display: none;
+}
+.active{
+  display: block;
+}
+
+.arrowPc:hover{
+  cursor: pointer;
+}
+/* .arrow-right-pc {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.arrow-left-pc {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+} */
+
+.arrowLeftPc {
+  width: 0;
+  height: 0;
+  border-top: 43px solid transparent;
+  border-right: 21px solid red;
+  border-bottom: 43px solid transparent;
+  padding: 0px;
+  right: 0;
+  /* margin-left: -11px; */
+}
+.arrowRightPc { 
+  width: 0;
+  height: 0;
+  border-top: 43px solid transparent;
+  border-left: 21px solid red;
+  border-bottom: 43px solid transparent;
+  padding: 0px;
+  left: 0;
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>랭킹지지</title>
+    <!-- 수동으로 app/popup경로에도 js파일을 놓아 둘것 -->
+  </head>
+  <body>
+    <div style="margin: 25px 5px 25px 15px;">
+      <div id="retryBody" style="position: relative;min-height: 108px;text-align: center;margin-top:10px;">
+        <img id="splashImg">
+        <div style="width: 80%; margin: 0 15px 0 15px; text-align: left;">
+          <p style="margin-top: 5px;margin-bottom: 10px;font-size: 27px;font-weight: bold;font-family: Noto Sans KR,sans-serif;">랭킹지지 보안프로그램</p>
+          <p style="margin-top: 0px; margin-bottom: 0px; font-size: 16px;">부정행위 및 불법프로그램을 감지합니다!</p>
+          <p style="margin-top: 0px; margin-bottom: 0px; font-size: 16px;">인증하려는 게임이 종료되면</p>
+          <p style="margin-top: 0px; margin-bottom: 0px; font-size: 16px;">랭킹지지App으로 플레이 인증을 해주세요!</p>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.onload = () =>{
+          console.log('DOM fully loaded and parsed');
+          window.matches = location.search.match(/\?splash_img=(\S+)/);
+          if(!matches?.[0] || !matches?.[1]){
+            return;
+          }
+          if(matches[1] != ''){
+              document.getElementById('splashImg').src= decodeURIComponent(matches[1]);
+              document.getElementById('splashImg').style.width="90%";
+              document.getElementById('splashImg').style.height="80%";
+          }
+        };
+    </script>
+    </body>
+</html>

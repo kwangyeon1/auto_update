@@ -1,0 +1,20 @@
+{
+  "name": "electron-react-boilerplate",
+  "productName": "ranking",
+  "version": "1.0.1",
+  "description": "랭킹지지 인증 PC프로그램.",
+  "main": "./main.prod.js",
+  "author": {
+    "name": "ranking",
+    "email": "electronreactboilerplate@gmail.com",
+    "url": "https://github.com/electron-react-boilerplate"
+  },
+  "scripts": {
+    "electron-rebuild": "node -r ../internals/scripts/BabelRegister.js ../internals/scripts/ElectronRebuild.js",
+    "postinstall": "yarn electron-rebuild"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "winreg-utf8": "^0.1.1"
+  }
+}

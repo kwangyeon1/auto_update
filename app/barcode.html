@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>인증</title>
+    <style>
+      @keyframes blink-bar1{
+        from{
+          left: 10px;
+        }
+        to{
+          left: 90px;
+        }
+      }
+
+      .blinkBar1{
+        position:absolute;
+        top: 0px;
+        left: 20px;
+        width:15px;
+        height:107px;
+        background-color:black;
+        color:#fff;
+        animation: blink-bar1 70ms infinite alternate;
+      }
+
+      
+      
+      @keyframes blink-visible{
+        from {
+            visibility: visible;
+        }
+        to {
+            visibility: hidden;
+        }
+      }
+
+      .blinkBox1{
+        position:absolute;
+        top: 0px;
+        left: 20px;
+        width:50px;
+        height:107px;
+        /* margin-left:-90px; */
+        background-color:black;
+        color:#fff;
+        animation: blink-visible 50ms steps(2, start) infinite normal;
+      }
+      .blinkBox2{
+        position:absolute;
+        top: 0px;
+        left: 110px;
+        width:40px;
+        height:107px;
+        background-color:black;
+        color:#fff;
+        animation: blink-visible 110ms steps(2, start) infinite alternate;
+      }
+      .blinkBox3{
+        position:absolute;
+        top: 0px;
+        left: 140px;
+        width:70px;
+        height:107px;
+        background-color:black;
+        color:#fff;
+        animation: blink-visible 90ms steps(2, start) infinite normal;
+      }
+      .blinkBox4{
+        position:absolute;
+        top: 0px;
+        left: 210px;
+        width:90px;
+        height:107px;
+        background-color:black;
+        color:#fff;
+        animation: blink-visible 80ms steps(2, start) infinite normal;
+      }
+    </style>
+    <!-- 수동으로 app/popup경로에도 js파일을 놓아 둘것 -->
+    <script type="text/javascript" src="./popup/jquery.min.js"></script>
+    <script type="text/javascript" src="./popup/kendo.all.min.js"></script>
+  </head>
+  <body>
+    <!-- <div style="display: flex;align-items: center;justify-content: center;">
+      <p style="font-size: 16px;font-weight: bold;color: #8e8e8e;">랭킹지지 바코드 플레이인증입니다</p>
+    </div> -->
+    <div id="background_frame" style="border-radius: 21px;background: #6b80bd;margin: 0 4px 0 4px;padding: 35px 0 25px 0;box-shadow: 3px 3px 8px 3px grey;min-height: 470px;max-height: 148px;">
+      <div id="barcode_comment">
+        <div style="margin: 0 0 0 28px;color: white;font-weight: bold;font-family: Noto Sans KR,sans-serif;font-size: 24px;border-bottom: 2px solid #fff;line-height: 1.2;display: inline-block;">플레이인증 안내</div>
+        <div style="margin: 0 0 0 28px;color: white;font-weight: bold;font-family: Noto Sans KR,sans-serif;font-size: 14px;">바코드 인증</div>
+        <div style="margin: 0 0 28px  28px;"></div>
+        <div style="margin: 0 0 0 28px;color: white;font-weight: bold;font-family: Noto Sans KR,sans-serif;">해당 컴퓨터에서 본인이 플레이했는지 인증합니다.</div>
+        <div style="margin: 0 0 15px  28px;"></div>
+        <div style="margin: 0 0 0 28px;color: white; font-family: Noto Sans KR,sans-serif;">• 랭킹지지 모바일 APP </div>
+        <div style="margin: 0 0 0 41px;color: white; font-family: Noto Sans KR,sans-serif;">'보안 - 바코드 인증' 터치 후 아래 바코드 촬영</div>
+        <div style="margin: 0 0 92px  28px;"></div>
+      </div>
+      <div id="root" style="display: flex;align-items: center;justify-content: center;">
+        <div style="position: relative;">
+          <span id="barcode"></span>
+          <div class="blinkBar1"></div>
+          <!-- <div class="blinkBoxBlock"></div> -->
+          <!-- <div class="blinkBox1"></div> -->
+          <div class="blinkBox2"></div>
+          <!-- <div class="blinkBox3"></div> -->
+          <div class="blinkBox4"></div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: center; margin: 20px 0 0 0;">
+        <div id="timer_label" style="font-size: 16px;font-weight: bold;"></div>
+        <div id="timer" style="font-size: 16px;font-weight: bold; color: #4cdc3b;"></div>
+      </div>
+      <div id="retryBody" style="display: none; min-height: 108px;">
+        <div id="barcode_auth_fail" style="display: none;">  
+          <div style="margin: 0 0 0 28px;color: white;font-weight: bold;font-family: Noto Sans KR,sans-serif;font-size: 24px;border-bottom: 2px solid #fff;line-height: 1.2;display: inline-block;">혹시 바코드 인증에 실패하셨나요?</div>
+          <div style="margin: 0 0 28px  28px;"></div>
+          <div style="margin: 0 0 0 28px;color: white;font-weight: bold;font-family: Noto Sans KR,sans-serif;">남은 시도 안에 바코드 인증에 실패할 경우</div>
+          <div style="margin: 0 0 0 28px;color: white;font-weight: bold;font-family: Noto Sans KR,sans-serif;">'USB 인증'으로 플레이인증을 대신할 수 있습니다.</div>
+          <div style="margin: 0 0 55px  28px;"></div>
+          <div style="margin: 0 0 0 40px;color: white;font-family: Noto Sans KR,sans-serif;border-bottom: 1px solid #fff;line-height: 1.2;display: inline-block;">USB 인증</div>
+          <div style="margin: 0 0 0 36px;color: white;font-family: Noto Sans KR,sans-serif;">1. 본인명의 휴대폰과 컴퓨터를 USB로 연결</div>
+          <div style="margin: 0 0 0 36px;color: white;font-family: Noto Sans KR,sans-serif;">2. 랭킹지지 모바일 APP</div><div style="margin: 0 0 0 51px;color: white;font-family: Noto Sans KR,sans-serif;">'보안 - USB 인증' 터치 후 인증 진행</div>
+          <div style="margin: 0 0 75px  28px;"></div>
+        </div>
+        <pre id="comment" style="font-size: 20px;text-align: center; font-weight: bold;font-family: Noto Sans KR,sans-serif; color: #f5815f; margin-top:10px;">
+        </pre>
+        <div style="display: flex; align-items: center; justify-content: center; margin-top: 30px;">
+          <button id="retry"
+            style="display: none; background-color: #ffbe07;border-radius: 18px; height: 42px;color: black;font-size: 17px; width: 180px;margin: 0 5px 0 5px;  font-size: 15px;width: 135px; font-weight: bold; font-family: Noto Sans KR,sans-serif;">
+            다시 시도
+          </button>
+          <button id="remain_barcode_count" style="display: none; background-color: white;border-radius: 18px;height: 42px;color: black;margin: 0 5px 0 5px;border: 0px; font-size: 15px;width: 135px; font-weight: bold; font-family: Noto Sans KR,sans-serif; color: #8e8e8e;">
+          </button>
+          <div style="position: absolute;left: 90px;bottom: 138px;color: darkgray;">바코드 인증</div>
+        </div>
+      </div>
+    </div>
+    <script>
+      var min = ""; //분
+      var sec = ""; //초
+      var timer = null;
+      var socket = null;
+
+      window.onload = () =>{
+          console.log('DOM fully loaded and parsed');
+          window.matches = location.search.match(/\?success=(\S+)&barcode=(\S+)&try_barcode_count=(\S+)&remained_time=(\S+)&portWS=(\S+)/);
+          if(!matches || !!!matches?.length || !!!matches?.length >= 6 ){
+            document.getElementById('root').style.display= 'none';
+            return;
+          }
+          if(matches[1] == 'success'){
+            var width = 300;
+            $("#barcode").kendoBarcode({
+                type: "code39",
+                value: matches[2],
+                checksum: false,
+                height: 0.15*width+60,
+                width: width,
+                color: 'black',
+                text:{visible:false}
+              });
+            
+            socket = new WebSocket("ws://localhost:"+matches[5]);
+            socket.onmessage = function(event) {
+                var response = JSON.parse(event.data);
+                if(response.response_type == 'connectedServer'){
+                  document.getElementById("retry").onclick = function(){
+                    socket.send(JSON.stringify({channel:'barcode', action:'retryBarcode'}));
+                  };
+                }
+            };
+            socket.onopen = function() {
+                socket.send(JSON.stringify({channel:'barcode', action:'connected'}));
+            };
+
+            var try_barcode_count = parseInt(matches[3]);
+            var remained_time = parseInt(matches[4]);
+            if(remained_time>2) { // TODO 1초정도 남았을경우는 그냥 실패 처리를 한다
+              // remained_time = 600;
+              // if(state == 'app_incorrect'){
+              //   document.getElementById('root').style.display= 'none';
+              //   document.getElementById('retryBody').style.display= 'block';
+              //   if(try_barcode_count<3){
+              //     document.getElementById('retry').style.display= 'block';
+              //     document.getElementById('remain_barcode_count').style.display= 'block';
+              //     document.getElementById('remain_barcode_count').innerText= '남은 시도 '+(3-parseInt(matches[3]))+'번';
+              //     document.getElementById('comment').innerHTML = "바코드 인증에 실패했습니다";
+              //   }else{
+              //     document.getElementById('comment').innerHTML = "바코드 인증을 모두 실패했습니다\nUSB 인증으로 인증해주세요!\n\nUSB 인증도 실패할 경우,\n진행 중이던 게임은 실패처리 됩니다";
+              //     document.getElementById('comment').style.marginTop = "-15px";
+              //   }
+                
+              //   document.getElementById("timer_label").innerHTML = '';
+              //   document.getElementById('timer').innerHTML = "";
+              // }else{
+                timer = callTimer(try_barcode_count, remained_time);
+              // }
+            }else{
+              document.getElementById('background_frame').style.minHeight = "148px";
+              document.getElementById('barcode_comment').style.display= 'none';
+              document.getElementById('root').style.display= 'none';
+              document.getElementById('retryBody').style.display= 'block';
+              document.getElementById('comment').innerHTML = "플레이인증에 모두 실패했습니다\n규정에 따라 최종적으로\n\n경기 기록이 취소됩니다";
+              document.getElementById('comment').style.marginTop = "-10px";
+            }
+          }
+        };
+
+        function callTimer(try_barcode_count, time) {
+          //setInterval(함수, 시간) : 주기적인 실행
+          min = parseInt(time/60); //몫을 계산
+          sec = time%60; //나머지를 계산
+
+          document.getElementById("timer_label").innerHTML = '남은시간&nbsp;';
+          document.getElementById("timer").innerHTML = (min? (min + "분" ):'')+ sec + "초";
+          return setInterval(function() {
+              //parseInt() : 정수를 반환
+              min = parseInt(time/60); //몫을 계산
+              sec = time%60; //나머지를 계산
+
+              document.getElementById("timer_label").innerHTML = '남은시간&nbsp;';
+              document.getElementById("timer").innerHTML = (min? (min + "분" ):'')+ sec + "초";
+              time--;
+
+              //타임아웃 시
+              if (time < 0) {
+                clearInterval(timer); //setInterval() 실행을 끝냄
+                
+                document.getElementById('barcode_comment').style.display= 'none';
+                document.getElementById('root').style.display= 'none';
+                document.getElementById('retryBody').style.display= 'block';
+                if(try_barcode_count<3){
+                  document.getElementById('retry').style.display= 'block';
+                  document.getElementById('remain_barcode_count').style.display= 'block';
+                  document.getElementById('remain_barcode_count').innerText= '남은 시도 '+(3-parseInt(matches[3]))+'번';
+                  // document.getElementById('comment').innerHTML = "바코드 인증에 실패했습니다";
+                  document.getElementById('barcode_auth_fail').style.display= 'block';
+                }else{
+                  document.getElementById('background_frame').style.minHeight = "148px";
+                  document.getElementById('comment').innerHTML = "바코드 인증을 모두 실패했습니다\nUSB 인증으로 인증해주세요!\n\nUSB 인증도 실패할 경우,\n진행 중이던 게임은 실패처리 됩니다";
+                  document.getElementById('comment').style.marginTop = "-15px";
+                }
+                
+                document.getElementById("timer_label").innerHTML = '';
+                document.getElementById('timer').innerHTML = "";
+              }
+            }, 1000);
+        }
+    </script>
+  </body>
+</html>

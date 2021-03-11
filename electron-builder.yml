@@ -1,0 +1,3 @@
+publish:
+  provider: github
+  token: Personal access tokens 1c3b195bbbd3647d815e64072693feadb34e41fd
